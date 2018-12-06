@@ -1,0 +1,117 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="app">
+    <div class="d-flex flex-row">
+        <div class="p-2">
+            <div class="card" style="margin-top: 5px; width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Transforms</h5>
+                    <p class="card-text">
+                        <input type="text" class="form-control" v-model="filter" />
+                    </p>
+                    <ul>
+                        <li v-for="transform in filteredTransforms" v-cloak><a v-on:click="setupForm(transform.Name, transform.Identifier)" href="#">{{transform.Name}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 w-100" v-if="initialContent">
+            <div class="card" style="margin-top: 5px;">
+                <h5 class="card-header">String Transforms</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Instructions</h5>
+                    <p class="card-text">Please select one of our transforms from the transforms card on the left to begin.</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-2 w-100" v-if="!initialContent">
+            <div class="card" style="margin-top: 5px;">
+                <h5 class="card-header">{{selectedTransform}}</h5>
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert" v-if="error">
+                        {{errorMessage}}
+                    </div>
+
+                    <textarea name="inputText" class="form-control" rows="10" v-model="selectedText"></textarea>
+                    <button class="btn btn-primary" style="margin-top: 10px;" v-on:click="executeTransform()">Execute Transform</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row">
+        <div class="p-2">
+            Data:<br />
+            <pre>
+                {{transforms}}
+            </pre>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                transforms: @Html.Raw(Model.Transforms.ToJson()),
+                filter: "",
+                selectedTransform: "",
+                selectedTransformIdentifier: "",
+                selectedText: "",
+                initialContent: true,
+                error: false,
+                errorMessage: "",
+            },
+	        computed: {
+		        filteredTransforms: function() {
+			        var vm = this;
+			        var filter = vm.filter;
+
+			        if (!filter) {
+				        return vm.transforms;
+                    }
+                    else {
+                        return vm.transforms.filter(function (t) {
+                            return t.Name.toLowerCase().includes(filter.toLowerCase());
+				        });
+			        }
+		        }
+            },
+            methods: {
+                setupForm: function (name, id) {
+                    this.$data.initialContent = false;
+                    this.$data.selectedTransform = name;
+                    this.$data.selectedTransformIdentifier = id;
+                    this.$data.error = false;
+                    this.$data.errorMessage = false;
+                },
+                executeTransform: function () {
+                    axios.get('/Index?handler=Transform', {
+                        params: {
+                            transform: this.$data.selectedTransformIdentifier,
+                            text: this.$data.selectedText
+                        }
+                    })
+                        .then(response => {
+                            this.$data.selectedText = response.data.value;
+
+                            if (response.data.error) {
+                                this.$data.error = true;
+                                this.$data.errorMessage = response.data.errorMessage;
+                            }
+
+                        })
+                        .catch(e => {
+                            this.$data.error = true;
+                            this.$data.errorMessage = e;
+                    })
+                }
+            }
+        })
+    </script>
+}
