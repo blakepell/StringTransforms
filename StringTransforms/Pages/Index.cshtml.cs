@@ -43,8 +43,13 @@ namespace StringTransforms.Pages
         /// <param name="transform"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public JsonResult OnGetTransform(string transform, string text)
+        [HttpPost]
+        public JsonResult OnPostTransform()
         {
+            // Model binding was failing so I manually requested everything from the form which works wonderfully.
+            string transform = Request.Form["transform"].ToString();
+            string text = Request.Form["text"].ToString();
+
             var tr = new TransformResult();
 
             if (string.IsNullOrWhiteSpace(transform))
@@ -72,7 +77,7 @@ namespace StringTransforms.Pages
                 // just get ignored.
                 for (int i = 1; i <= 9; i++)
                 {
-                    it.SetParameterValue($"param{i}", Request.Query[$"param{i}"].ToString() ?? "");
+                    it.SetParameterValue($"param{i}", Request.Form[$"param{i}"].ToString() ?? "");
                 }
 
                 // Execute the transform
