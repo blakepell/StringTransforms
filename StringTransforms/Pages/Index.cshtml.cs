@@ -45,14 +45,24 @@ namespace StringTransforms.Pages
         /// <returns></returns>
         public JsonResult OnGetTransform(string transform, string text)
         {
+            var tr = new TransformResult();
+
+            if (string.IsNullOrWhiteSpace(transform))
+            {
+                tr.Value = text;
+                tr.Error = true;
+                tr.ErrorMessage = "Transform not provided.";
+                return new JsonResult(tr);
+            }
+
+            text = text ?? "";
+
             // Allow lookup by name but don't let it get out of our boxed in namespace.
             var type = Assembly
                         .GetExecutingAssembly()
                         .GetTypes()
                         .Where(t => t.Namespace == "StringTransforms.Code.Transforms" && t.IsInterface == false && t.Name == transform)
                         .FirstOrDefault();
-
-            var tr = new TransformResult();
 
             try
             {
