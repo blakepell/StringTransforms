@@ -23,7 +23,7 @@ namespace StringTransforms.Code.Transforms
         public override string Transform(string text)
         {
             string prependText = this.Parameters.FirstOrDefault(x => x.Label == "Prepend Text").Value;
-            return Argus.Data.StringTransforms.WrapLines(text, prependText, "\n");
+            return Argus.Data.StringTransforms.WrapLines(text, prependText, "", "\n");
         }
 
     }
