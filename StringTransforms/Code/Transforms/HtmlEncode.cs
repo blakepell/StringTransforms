@@ -7,17 +7,15 @@ using StringTransforms.Models;
 
 namespace StringTransforms.Code.Transforms
 {
-    public class HtmlEncode : ITransform
+    public class HtmlEncode : BaseTransform
     {
-        public string Name => "HTML Encode";
+        public override string Name { get; set; } = "HTML Encode";
 
-        public string Description => "HTML encodes a string.";
+        public override string Description { get; set; } = "HTML encodes a string.";
 
-        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public override string Identifier { get; set; } = "HtmlEncode";
 
-        public string Identifier => "HtmlEncode";
-
-        public string Transform(string text)
+        public override string Transform(string text)
         {
             return text.HtmlEncode();
         }

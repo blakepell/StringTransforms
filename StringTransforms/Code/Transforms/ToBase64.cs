@@ -7,17 +7,15 @@ using StringTransforms.Models;
 
 namespace StringTransforms.Code.Transforms
 {
-    public class ToBase64 : ITransform
+    public class ToBase64 : BaseTransform
     {
-        public string Name => "To Base64";
+        public override string Name { get; set; } = "To Base64";
 
-        public string Description => "Converts text to Base64.";
+        public override string Description { get; set; } = "Converts text to Base64.";
 
-        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public override string Identifier { get; set; } = "ToBase64";
 
-        public string Identifier => "ToBase64";
-
-        public string Transform(string text)
+        public override string Transform(string text)
         {
             return text.ToBase64();
         }

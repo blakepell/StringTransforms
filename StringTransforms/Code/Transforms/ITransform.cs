@@ -19,5 +19,7 @@ namespace StringTransforms.Code.Transforms
 
         string Identifier { get; }
 
+        void AddParameter(string label, Type type);
+
     }
 }

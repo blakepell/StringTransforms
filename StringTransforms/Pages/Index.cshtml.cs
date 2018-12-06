@@ -18,7 +18,7 @@ namespace StringTransforms.Pages
             var transformList = Assembly
                                 .GetExecutingAssembly()
                                 .GetTypes()
-                                .Where(t => t.Namespace == "StringTransforms.Code.Transforms" && t.IsInterface == false)
+                                .Where(t => t.Namespace == "StringTransforms.Code.Transforms" && !t.IsInterface && !t.IsAbstract)
                                 .ToList();
 
             foreach (var item in transformList)

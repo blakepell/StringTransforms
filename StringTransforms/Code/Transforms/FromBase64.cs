@@ -7,17 +7,15 @@ using Argus.Extensions;
 
 namespace StringTransforms.Code.Transforms
 {
-    public class FromBase64 : ITransform
+    public class FromBase64 : BaseTransform
     {
-        public string Name => "From Base64";
+        public override string Name { get; set; } = "From Base64";
 
-        public string Description => "Converts Base64 to text.";
+        public override string Description { get; set; } = "Converts Base64 to text.";
 
-        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public override string Identifier { get; set; } = "FromBase64";
 
-        public string Identifier => "FromBase64";
-
-        public string Transform(string text)
+        public override string Transform(string text)
         {
             return text.FromBase64();
         }

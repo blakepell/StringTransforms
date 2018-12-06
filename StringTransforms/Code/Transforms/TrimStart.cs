@@ -6,17 +6,15 @@ using StringTransforms.Models;
 
 namespace StringTransforms.Code.Transforms
 {
-    public class TrimStart : ITransform
+    public class TrimStart : BaseTransform
     {
-        public string Name => "Trim Start";
+        public override string Name { get; set; } = "Trim Start";
 
-        public string Description => "Trims whitespace off the beginning of a string.";
+        public override string Description { get; set; } = "Trims whitespace off the beginning of a string.";
 
-        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public override string Identifier { get; set; } = "TrimStart";
 
-        public string Identifier => "TrimStart";
-
-        public string Transform(string text)
+        public override string Transform(string text)
         {
             return text.TrimStart();
         }

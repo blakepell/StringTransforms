@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using StringTransforms.Models;
+
+namespace StringTransforms.Code.Transforms
+{
+    public abstract class BaseTransform : ITransform
+    {
+        public abstract string Name { get; set; }
+
+        public abstract string Description { get; set; }
+
+        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+
+        public abstract string Identifier { get; set; }
+
+        private int _paramCounter = 0;
+
+        public void AddParameter(string label, Type type)
+        {
+            _paramCounter++;
+            this.Parameters.Add(new Parameter($"param{_paramCounter.ToString()}", label, type));
+        }
+
+        public abstract string Transform(string text);
+
+    }
+}

@@ -7,17 +7,15 @@ using Argus.Extensions;
 
 namespace StringTransforms.Code.Transforms
 {
-    public class HtmlDecode : ITransform
+    public class HtmlDecode : BaseTransform
     {
-        public string Name => "HTML Decode";
+        public override string Name { get; set; } = "HTML Decode";
 
-        public string Description => "HTML decodes a string.";
+        public override string Description { get; set; } = "HTML decodes a string.";
 
-        public List<Parameter> Parameters { get; set; } = new List<Parameter>();
+        public override string Identifier { get; set; } = "HtmlDecode";
 
-        public string Identifier => "HtmlDecode";
-
-        public string Transform(string text)
+        public override string Transform(string text)
         {
             return text.HtmlDecode();
         }
