@@ -10,9 +10,9 @@ namespace StringTransforms.Code.Transforms
     public class WrapLines : BaseTransform
     {
         public WrapLines()
-        {            
-            //this.Parameters.Add(new Parameter("BeforeText", "Before Text", Argus.Utilities.TypeUtilities.StringType()));
-            //this.Parameters.Add(new Parameter("AfterText", "After Text", Argus.Utilities.TypeUtilities.StringType()));
+        {
+            this.AddParameter("Before Text", Argus.Utilities.TypeUtilities.StringType());
+            this.AddParameter("After Text", Argus.Utilities.TypeUtilities.StringType());
         }
 
         public override string Name { get; set; } = "Wrap Lines";
@@ -23,10 +23,9 @@ namespace StringTransforms.Code.Transforms
 
         public override string Transform(string text)
         {
-            //string beforeText = this.Parameters.FirstOrDefault(p { get; set; } = p.Name == "BeforeText").Value;
-            //string afterText = this.Parameters.Where(p { get; set; } = p.Name == "AfterText").FirstOrDefault()?.Value ?? "";
-
-            return "Not implemented.";
+            string beforeText = this.Parameters.FirstOrDefault(x => x.Label == "Before Text").Value;
+            string afterText = this.Parameters.FirstOrDefault(x => x.Label == "After Text").Value;
+            return Argus.Data.StringTransforms.WrapLines(text, beforeText, afterText, "\n");
         }
 
     }

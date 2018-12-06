@@ -56,7 +56,16 @@ namespace StringTransforms.Pages
 
             try
             {
-                var it = (ITransform)Activator.CreateInstance(type);                
+                var it = (ITransform)Activator.CreateInstance(type);
+
+                // Find our dynamic parameters and set them.  Parameters that don't exist will
+                // just get ignored.
+                for (int i = 1; i <= 9; i++)
+                {
+                    it.SetParameterValue($"param{i}", Request.Query[$"param{i}"].ToString() ?? "");
+                }
+
+                // Execute the transform
                 tr.Value = it.Transform(text);
             }
             catch (Exception ex)

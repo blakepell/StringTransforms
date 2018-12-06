@@ -21,5 +21,7 @@ namespace StringTransforms.Code.Transforms
 
         void AddParameter(string label, Type type);
 
+        void SetParameterValue(string paramName, string paramValue);
+
     }
 }

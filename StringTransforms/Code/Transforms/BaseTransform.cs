@@ -24,6 +24,17 @@ namespace StringTransforms.Code.Transforms
             this.Parameters.Add(new Parameter($"param{_paramCounter.ToString()}", label, type));
         }
 
+        public void SetParameterValue(string paramName, string paramValue)
+        {
+            foreach (var item in this.Parameters)
+            {
+                if (item.Name == paramName)
+                {
+                    item.Value = paramValue;
+                }
+            }
+        }
+
         public abstract string Transform(string text);
 
     }
