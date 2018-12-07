@@ -31,9 +31,19 @@ namespace StringTransforms
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddRouting(options => options.LowercaseUrls = true);
+
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                //.AddRazorPagesOptions(options =>
+                //{
+                //    options.Conventions.AddPageRoute("/Index", "/to-base-64");
+                //    options.Conventions.AddPageRoute("/Index", "/from-base-64");
+
+                //});
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
