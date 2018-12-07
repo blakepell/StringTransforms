@@ -12,7 +12,7 @@ namespace StringTransforms.Code.Transforms
 
         public override string Description { get; set; } = "Creates the MD5 hash for the specified string.";
 
-        public override string Identifier { get; set; } = "MD5Hash";
+        public override string Identifier { get; set; } = "Md5Hash";
 
         public override string Transform(string text)
         {
