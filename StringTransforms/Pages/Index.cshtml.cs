@@ -8,11 +8,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using StringTransforms.Code.Transforms;
 using Argus.Extensions;
 using StringTransforms.Models;
+using StringTransforms.Code;
 
 namespace StringTransforms.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModel
     {
+        public IndexModel()
+        {
+            this.ActiveMenu = "Home";
+        }
+
         public void OnGet()
         {
             var transformList = Assembly
