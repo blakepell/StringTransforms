@@ -16,7 +16,7 @@
                         <input type="text" class="form-control" v-model="filter" />
                     </p>
                     <ul>
-                        <li v-for="transform in filteredTransforms" v-cloak><a v-on:click="setupForm(transform.Name, transform.Identifier)" href="#">{{transform.Name}}</a></li>
+                        <li v-for="transform in filteredTransforms" v-cloak><a v-on:click="setupForm(transform.Name, transform.Identifier, true)" href="#" class="transform-link">{{transform.Name}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -87,7 +87,7 @@
 		        }
             },
             methods: {
-                setupForm: function (name, id) {
+                setupForm: function (name, id, addToHistory) {
                     this.$data.initialContent = false;
                     this.$data.selectedTransform = name;
                     this.$data.selectedTransformIdentifier = id;
@@ -99,6 +99,12 @@
                     // into the currently selected item.
                     this.$data.transforms.forEach(function (item) {
                         if (item.Identifier === id) {
+
+                            // We want to do this on the initial loadin gof the form but not if it's re-setup from the history                            
+                            if (addToHistory) {
+                                window.history.pushState(this.$data, null, '/' + item.Route);
+                            }
+
                             item.Parameters.forEach(function (param) {
                                 this.$data.paramInputs.push(param);
                             }.bind(this));                            
@@ -140,13 +146,32 @@
                                 this.$data.errorMessage = response.data.errorMessage;
                             }
 
+                            // Add an entry into the history after the response comes back.
+                            window.history.pushState(this.$data, null, '/' + this.$data.selectedTransformIdentifier);
+
                         })
                         .catch(e => {
                             this.$data.error = true;
                             this.$data.errorMessage = e;
-                    })
+                        })
                 }
-            }
+            },
+            mounted: function () {
+                // Revent the default link from navigating and putting the hash at the
+                // end of the URL.
+                $('.transform-link').click(function (event) {
+                    event.preventDefault();
+                });
+
+                var vm = this;
+
+                window.addEventListener('popstate', function (event) {
+                    vm.setupForm(event.state.selectedTransform, event.state.selectedTransformIdentifier, false);
+                    vm.selectedText = event.state.selectedText;
+                    console.log(event, vm);
+                 });
+             }
+
         })
     </script>
 }
