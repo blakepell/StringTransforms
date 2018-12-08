@@ -71,20 +71,20 @@
                 errorMessage: "",
                 paramInputs: ""
             },
-	        computed: {
-		        filteredTransforms: function() {
-			        var vm = this;
-			        var filter = vm.filter;
+            computed: {
+                filteredTransforms: function() {
+                    var vm = this;
+                    var filter = vm.filter;
 
-			        if (!filter) {
-				        return vm.transforms;
+                    if (!filter) {
+                        return vm.transforms;
                     }
                     else {
                         return vm.transforms.filter(function (t) {
                             return t.Name.toLowerCase().includes(filter.toLowerCase());
-				        });
-			        }
-		        }
+                        });
+                    }
+                }
             },
             methods: {
                 setupForm: function (name, id, addToHistory) {
