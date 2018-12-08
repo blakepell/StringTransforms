@@ -165,6 +165,7 @@
 
                 var vm = this;
 
+                // This is what fires when the browser back button or forward button is hit.
                 window.addEventListener('popstate', function (event) {
                     vm.setupForm(event.state.selectedTransform, event.state.selectedTransformIdentifier, false);
                     vm.selectedText = event.state.selectedText;
