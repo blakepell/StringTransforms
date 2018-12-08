@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using StringTransforms.Models;
 
@@ -15,6 +16,14 @@ namespace StringTransforms.Code.Transforms
         public List<Parameter> Parameters { get; set; } = new List<Parameter>();
 
         public abstract string Identifier { get; set; }
+
+        public string Route
+        {
+            get
+            {
+                return Regex.Replace(Identifier, @"([a-z])([A-Z])", "$1-$2").ToLower();
+            }
+        }
 
         private int _paramCounter = 0;
 

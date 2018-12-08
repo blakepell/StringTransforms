@@ -19,6 +19,8 @@ namespace StringTransforms.Code.Transforms
 
         string Identifier { get; }
 
+        string Route { get; }
+
         void AddParameter(string label, Type type);
 
         void SetParameterValue(string paramName, string paramValue);
