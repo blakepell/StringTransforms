@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Argus.AspNetCore" Version="2018.5.15" />
     <PackageReference Include="Argus.Core" Version="2018.12.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -15,7 +19,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\lib\luxon\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>

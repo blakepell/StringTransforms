@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/lib/weekstart/full.min.js",
+    "inputFiles": [
+      "wwwroot/lib/weekstart/full.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/weekstart/main.min.js",
+    "inputFiles": [
+      "wwwroot/lib/weekstart/main.js"
+    ]
+  }
+]
