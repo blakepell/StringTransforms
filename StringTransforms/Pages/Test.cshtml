@@ -1,0 +1,46 @@
+﻿@page
+@model TestModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div id="app">
+    @Html.AntiForgeryToken()
+
+    <div class="d-flex flex-row">
+        <div class="p-2 w-100">
+            <div class="card" style="margin-top: 5px;">
+                <h5 class="card-header">Test Page</h5>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputText">Some Date</label>
+                        <datetime v-model="selectedDate" type="datetime" input-class="form-control"></datetime>
+                    </div>
+
+                    <button class="btn btn-primary" style="margin-top: 10px;" v-on:click="executeTransform()">Do Something</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                initialContent: true,
+                error: false,
+                errorMessage: "",
+                selectedDate: ""
+            },
+            methods: {
+                executeTransform: function () {
+                    var vm = this;
+                    alert(vm.selectedDate);
+                }
+            }
+        })
+    </script>
+}
