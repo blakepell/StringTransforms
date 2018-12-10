@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StringTransforms.Code;
 
 namespace StringTransforms
 {
@@ -36,12 +37,16 @@ namespace StringTransforms
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-                //.AddRazorPagesOptions(options =>
-                //{
-                //    options.Conventions.AddPageRoute("/Index", "to-base64");
-                //    options.Conventions.AddPageRoute("/Index", "from-base64");
-                //});
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddRazorPagesOptions(options =>
+                {
+                    var list = Utilities.TransformList();
+
+                    foreach (var item in list)
+                    {
+                        options.Conventions.AddPageRoute($"/Index", item.Route);
+                    }
+                });
 
         }
 

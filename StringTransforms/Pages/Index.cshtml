@@ -16,7 +16,7 @@
                         <input type="text" class="form-control" v-model="filter" placeholder="Search Transforms" />
                     </p>
                     <ul>
-                        <li v-for="transform in filteredTransforms" v-cloak><a v-on:click="setupForm(transform.Name, transform.Identifier, true)" href="#" class="transform-link">{{transform.Name}}</a></li>
+                        <li v-for="transform in filteredTransforms" v-cloak><a v-on:click="setupForm(transform.Route, true)" href="#" class="transform-link">{{transform.Name}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -81,11 +81,11 @@
                 }
             },
             methods: {
-                setupForm: function (name, id, addToHistory) {
+                setupForm: function (route, addToHistory) {
                     this.$data.initialContent = false;
-                    this.$data.selectedTransform = name;
-                    this.$data.selectedTransformIdentifier = id;
-                    this.$data.route = "";
+                    this.$data.selectedTransform = "";
+                    this.$data.selectedTransformIdentifier = "";
+                    this.$data.route = route;
                     this.$data.error = false;
                     this.$data.errorMessage = false;
                     this.$data.paramInputs = [];
@@ -93,11 +93,12 @@
                     // Go through all the transforms and find the parameters if they exist.  Put the parameters
                     // into the currently selected item.
                     this.$data.transforms.forEach(function (item) {
-                        if (item.Identifier === id) {
+                        if (item.Route === route) {
+                            this.$data.selectedTransform = item.Name;
+                            this.$data.selectedTransformIdentifier = item.Identifier;
 
                             // We want to do this on the initial loading of the form but not if it's re-setup from the history                            
                             if (addToHistory) {
-                                this.$data.route = item.Route;
                                 window.history.pushState(this.$data, null, '/' + item.Route);
                             }
 
@@ -143,7 +144,7 @@
                             }
 
                             // Add an entry into the history after the response comes back.
-                            window.history.pushState(this.$data, null, '/' + this.$data.route);
+                            window.history.pushState(this.$data, null, this.$data.route);
 
                         })
                         .catch(e => {
@@ -161,9 +162,17 @@
 
                 var vm = this;
 
+                // Perhaps hacky, but w/e.  Support for a first time load from a specific route.  Hack the
+                // slash off the string so we just get the route name.
+                var init = window.location.pathname.replace("/", "");
+
+                if (init !== "/" && init !== "") {
+                    vm.setupForm(init, false);
+                }
+
                 // This is what fires when the browser back button or forward button is hit.
                 window.addEventListener('popstate', function (event) {
-                    vm.setupForm(event.state.selectedTransform, event.state.selectedTransformIdentifier, false);
+                    vm.setupForm(event.state.route, false);
                     vm.selectedText = event.state.selectedText;                    
                     console.log(event, vm);
                  });

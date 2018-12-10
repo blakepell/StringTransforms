@@ -21,6 +21,8 @@ namespace StringTransforms.Pages
 
         public void OnGet()
         {
+            string init = Request.Query["init"].ToString();
+
             Transforms = Utilities.TransformList();
         }
 
