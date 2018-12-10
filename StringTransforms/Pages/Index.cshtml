@@ -83,6 +83,7 @@
                     this.$data.initialContent = false;
                     this.$data.selectedTransform = name;
                     this.$data.selectedTransformIdentifier = id;
+                    this.$data.route = "";
                     this.$data.error = false;
                     this.$data.errorMessage = false;
                     this.$data.paramInputs = [];
@@ -92,8 +93,9 @@
                     this.$data.transforms.forEach(function (item) {
                         if (item.Identifier === id) {
 
-                            // We want to do this on the initial loadin gof the form but not if it's re-setup from the history                            
+                            // We want to do this on the initial loading of the form but not if it's re-setup from the history                            
                             if (addToHistory) {
+                                this.$data.route = item.Route;
                                 window.history.pushState(this.$data, null, '/' + item.Route);
                             }
 
@@ -139,7 +141,7 @@
                             }
 
                             // Add an entry into the history after the response comes back.
-                            window.history.pushState(this.$data, null, '/' + this.$data.selectedTransformIdentifier);
+                            window.history.pushState(this.$data, null, '/' + this.$data.route);
 
                         })
                         .catch(e => {
@@ -160,7 +162,7 @@
                 // This is what fires when the browser back button or forward button is hit.
                 window.addEventListener('popstate', function (event) {
                     vm.setupForm(event.state.selectedTransform, event.state.selectedTransformIdentifier, false);
-                    vm.selectedText = event.state.selectedText;
+                    vm.selectedText = event.state.selectedText;                    
                     console.log(event, vm);
                  });
              }
