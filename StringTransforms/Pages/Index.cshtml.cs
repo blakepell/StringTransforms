@@ -21,26 +21,7 @@ namespace StringTransforms.Pages
 
         public void OnGet()
         {
-            var transformList = Assembly
-                                .GetExecutingAssembly()
-                                .GetTypes()
-                                .Where(t => t.Namespace == "StringTransforms.Code.Transforms" && !t.IsInterface && !t.IsAbstract)
-                                .ToList();
-
-            foreach (var item in transformList)
-            {
-                // Activator behaves weird when there are linq queries inside any of the methods on what
-                // we create... after we activate this way we need to check for a null type (when a linq query
-                // is run it seems to create a weird generic type that then throws a cast call when crammed into
-                // our list).
-                var transform = Activator.CreateInstance(item) as ITransform;
-
-                if (transform != null)
-                {
-                    Transforms.Add(transform);
-                }
-            }
-
+            Transforms = Utilities.TransformList();
         }
 
         /// <summary>

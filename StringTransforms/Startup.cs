@@ -39,9 +39,8 @@ namespace StringTransforms
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
                 //.AddRazorPagesOptions(options =>
                 //{
-                //    options.Conventions.AddPageRoute("/Index", "/to-base-64");
-                //    options.Conventions.AddPageRoute("/Index", "/from-base-64");
-
+                //    options.Conventions.AddPageRoute("/Index", "to-base64");
+                //    options.Conventions.AddPageRoute("/Index", "from-base64");
                 //});
 
         }
